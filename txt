@@ -1,0 +1,74 @@
+document.addEventListener('DOMContentLoaded', () => {
+    const boardSize = 10;
+    const bombCount = 15;
+    const board = document.getElementById('board');
+    const button = document.getElementById('button');
+    const timerDisplay = document.getElementById('timer');
+    let cells = [];
+    let timer;
+    let seconds = 0;
+
+    function initializeBoard() {
+        // ... (existing code)
+
+        // Start the timer
+        startTimer();
+
+        // ... (existing code)
+    }
+
+    function startTimer() {
+        timer = setInterval(() => {
+            seconds++;
+            timerDisplay.textContent = formatTime(seconds);
+        }, 1000);
+    }
+
+    function stopTimer() {
+        clearInterval(timer);
+    }
+
+    function formatTime(seconds) {
+        const minutes = Math.floor(seconds / 60);
+        const remainingSeconds = seconds % 60;
+        return `${String(minutes).padStart(2, '0')}:${String(remainingSeconds).padStart(2, '0')}`;
+    }
+
+    function handleCellClick(index) {
+        // ... (existing code)
+
+        if (cell.classList.contains('bomb')) {
+            revealAllBombs();
+            stopTimer(); // Stop the timer on game over
+            alert('Game Over! You hit a bomb.');
+            resetGame();
+        } else {
+            // ... (existing code)
+        }
+    }
+
+    function checkWin() {
+        const revealedCount = cells.filter(cell => cell.classList.contains('revealed')).length;
+        const nonBombCount = boardSize * boardSize - bombCount;
+
+        if (revealedCount === nonBombCount) {
+            stopTimer(); // Stop the timer on win
+            alert(`Congratulations! You win! Time: ${timerDisplay.textContent}`);
+            resetGame();
+        }
+    }
+
+    function resetGame() {
+        stopTimer(); // Stop the timer on game reset
+
+        // ... (existing code)
+
+        // Initialize a new game
+        seconds = 0;
+        timerDisplay.textContent = formatTime(seconds);
+        initializeBoard();
+    }
+
+    // Start the game
+    initializeBoard();
+});
