@@ -111,6 +111,10 @@ document.addEventListener('DOMContentLoaded', () => {
             const cell = cells[neighbor];
             if (cell && !cell.classList.contains('revealed') && !cell.classList.contains('bomb')) {
                 cell.classList.add('revealed');
+                if(cell.classList.contains('flagged')) {
+                    cell.classList.remove('flagged');
+                    bomcounter.textContent = parseInt(bomcounter.textContent) + 1; 
+                }
                 const bombCount = countAdjacentBombs(neighbor);
                 if (bombCount === 0) {
                     revealEmptyCells(neighbor);
