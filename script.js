@@ -139,9 +139,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (revealedCount === nonBombCount) {
             alert('Congratulations! You win!');
+            handleWin();
             resetGame();
             
         }
+    }
+
+    function handleWin() {
+        prompt('What is your name.')
     }
 
     function resetGame() {
