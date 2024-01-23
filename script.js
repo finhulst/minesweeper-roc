@@ -3,6 +3,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const bombCount = 15;
     const board = document.getElementById('board');
     const button = document.getElementById('button');
+    const bomcounter = document.getElementById('bom');
     button.addEventListener('click', () => resetGame());
     let cells = [];
 
@@ -66,9 +67,10 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!cell.classList.contains('revealed')) {
             if (cell.classList.contains('flagged')) {
                 cell.classList.remove('flagged');
+               bomcounter.textContent = parseInt(bomcounter.textContent) + 1;
             } else {
                 cell.classList.add('flagged');
-                
+                bomcounter.textContent = parseInt(bomcounter.textContent) - 1;
                 
             }
         }
@@ -139,6 +141,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function resetGame() {
+        bomcounter.textContent = "15";
         // Clear the board
         cells.forEach(cell => {
             board.removeChild(cell);
