@@ -4,8 +4,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const board = document.getElementById('board');
     const button = document.getElementById('button');
     const bomcounter = document.getElementById('bom');
+    const highscoreTable = document.getElementById('highscore-table');
     button.addEventListener('click', () => resetGame());
     let cells = [];
+    let highscores = [];
 
     function initializeBoard() {
         // Create empty board
@@ -67,11 +69,10 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!cell.classList.contains('revealed')) {
             if (cell.classList.contains('flagged')) {
                 cell.classList.remove('flagged');
-               bomcounter.textContent = parseInt(bomcounter.textContent) + 1;
+                bomcounter.textContent = parseInt(bomcounter.textContent) + 1;
             } else {
                 cell.classList.add('flagged');
                 bomcounter.textContent = parseInt(bomcounter.textContent) - 1;
-                
             }
         }
     }
@@ -111,9 +112,9 @@ document.addEventListener('DOMContentLoaded', () => {
             const cell = cells[neighbor];
             if (cell && !cell.classList.contains('revealed') && !cell.classList.contains('bomb')) {
                 cell.classList.add('revealed');
-                if(cell.classList.contains('flagged')) {
+                if (cell.classList.contains('flagged')) {
                     cell.classList.remove('flagged');
-                    bomcounter.textContent = parseInt(bomcounter.textContent) + 1; 
+                    bomcounter.textContent = parseInt(bomcounter.textContent) + 1;
                 }
                 const bombCount = countAdjacentBombs(neighbor);
                 if (bombCount === 0) {
@@ -138,15 +139,33 @@ document.addEventListener('DOMContentLoaded', () => {
         const nonBombCount = boardSize * boardSize - bombCount;
 
         if (revealedCount === nonBombCount) {
-            alert('Congratulations! You win!');
-            handleWin();
+            const playerName = prompt('Congratulations! You win! Enter your name:');
+            const gameTime = getFormattedTime();
+            const highscoreEntry = { name: playerName, time: gameTime };
+            highscores.push(highscoreEntry);
+            displayHighscores();
             resetGame();
-            
         }
     }
 
-    function handleWin() {
-        prompt('What is your name.')
+    function getFormattedTime() {
+        const now = new Date();
+        return now.toLocaleTimeString();
+    }
+
+    function displayHighscores() {
+        // Sort highscores by time
+        highscores.sort((a, b) => {
+            return new Date('1970/01/01 ' + a.time) - new Date('1970/01/01 ' + b.time);
+        });
+
+        // Display highscores in the table
+        highscoreTable.innerHTML = '<tr><th>Name</th><th>Time</th></tr>';
+        for (const entry of highscores) {
+            const row = document.createElement('tr');
+            row.innerHTML = `<td>${entry.name}</td><td>${entry.time}</td>`;
+            highscoreTable.appendChild(row);
+        }
     }
 
     function resetGame() {
