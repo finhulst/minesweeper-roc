@@ -9,6 +9,8 @@ document.addEventListener('DOMContentLoaded', () => {
     let cells = [];
     let highscores = [];
 
+    // loadHighscoresFromCookies();
+
     function initializeBoard() {
         // Create empty board
         for (let i = 0; i < boardSize * boardSize; i++) {
@@ -143,6 +145,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const gameTime = getFormattedTime();
             const highscoreEntry = { name: playerName, time: gameTime };
             highscores.push(highscoreEntry);
+            // saveHighscoresToCookies();
             displayHighscores();
             resetGame();
         }
@@ -179,6 +182,22 @@ document.addEventListener('DOMContentLoaded', () => {
         // Initialize a new game
         initializeBoard();
     }
+
+    // function saveHighscoresToCookies() {
+    //     // Convert highscores array to a JSON string
+    //     const highscoresJSON = JSON.stringify(highscores);
+    //     // Set the cookie with the highscores
+    //     document.cookie = `highscores=${highscoresJSON}; expires=Fri, 31 Dec 9999 23:59:59 GMT`;
+    // }
+
+    // function loadHighscoresFromCookies() {
+    //     // Get the value of the 'highscores' cookie
+    //     const highscoresCookie = document.cookie.replace(/(?:(?:^|.*;\s*)highscores\s*=\s*([^;]*).*$)|^.*$/, '$1');
+    //     // Parse the JSON string into an array
+    //     highscores = JSON.parse(highscoresCookie) || [];
+    //     // Display the highscores
+    //     displayHighscores();
+    // }
 
     // Start the game
     initializeBoard();
